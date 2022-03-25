@@ -60,6 +60,16 @@ func TestSimple(t *testing.T) {
 		a[i] = i
 	end
 	assert(json.encode(a) == "[1,2,3,4,5]")
+
+	-- UserData removal
+	local t = setmetatable({10}, {
+		__call = function(t, value)
+			return value
+		end
+	})
+
+	assert(t(37) == 37)
+	assert(json.encode(t) == "[10]")
 	`
 	s := lua.NewState()
 	defer s.Close()
